@@ -1,0 +1,3 @@
+name : 'timski'
+version : '1.0'
+build : '/Users/timski/testproj/build/build.sh'
