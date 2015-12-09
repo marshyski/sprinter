@@ -1,2 +1,2 @@
-# spinkick
-Spinkick your builds
+# sprinter
+Keep track of running scripts with ElasticSearch

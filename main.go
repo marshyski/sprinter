@@ -34,15 +34,15 @@ func init() {
   flag.StringVar(configFlag, "c", "", "  Build config")
 }
 
-var usage = `Usage: spinkick [options] <args>
+var usage = `Usage: sprinter [options] <args>
 
-   Spinkick your builds, tests and deploys
+   Sprinter your builds, tests and deploys
 
     -c, -config              Config
     -n, -name, optional      Override name in build config
     -v, -version, optional   Override version of your app in build config
 
-Documentation:  https://github.com/marshyski/spinkick/blob/master/README.md
+Documentation:  https://github.com/marshyski/sprinter/blob/master/README.md
 
 `
 
@@ -63,11 +63,11 @@ func main() {
 
   flag.Parse()
 
-  viper.SetConfigName("spinkick")
+  viper.SetConfigName("sprinter")
   if *configFlag != "" {
     viper.AddConfigPath(*configFlag)
   } else {
-    viper.AddConfigPath("/opt/spinkick/conf")
+    viper.AddConfigPath("/opt/sprinter/conf")
   }
 
     viperReadConfig := viper.ReadInConfig()
@@ -124,7 +124,7 @@ func main() {
     execBuildJson,_ := json.Marshal(execBuildSlice)
 
 
-    filename := "spinkick-output.json"
+    filename := "sprinter-output.json"
 
     // Create JSON file
     f, err := os.Create(filename)
@@ -277,7 +277,7 @@ func main() {
     elapsed := time.Since(start)
     fmt.Printf("      \"execution_time\": \"%s\"\n    }\n", elapsed)
 
-    elastic_url := "http://" + elastic_host + ":" + elastic_port + "/spinkick" + "/" + `%s`
+    elastic_url := "http://" + elastic_host + ":" + elastic_port + "/sprinter" + "/" + `%s`
 
     if *nameFlag != "" {
       elasticUrlLine := fmt.Sprintf(elastic_url, *nameFlag)
