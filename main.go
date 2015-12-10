@@ -24,23 +24,20 @@ func checkerror(err error) {
   }
 }
 
-var verFlag = flag.String("version", "", "  Version of your app")
-var nameFlag = flag.String("name", "", "  Name of build you're running")
-var configFlag = flag.String("config", "", "  Build config")
+var configFlag = flag.String("config", "", "  Config")
+var scriptFlag = flag.String("script", "", "  Scripts")
 
 func init() {
-  flag.StringVar(verFlag, "v", "", "  Version of your app")
-  flag.StringVar(nameFlag, "n", "", "  Name of build you're running")
-  flag.StringVar(configFlag, "c", "", "  Build config")
+  flag.StringVar(configFlag, "c", "", "  Config")
+  flag.StringVar(scriptFlag, "s", "", "  Scripts")
 }
 
 var usage = `Usage: sprinter [options] <args>
 
-   Sprinter your builds, tests and deploys
+   Sprinter logs scripts you run
 
-    -c, -config              Config
-    -n, -name, optional      Override name in build config
-    -v, -version, optional   Override version of your app in build config
+    -c, -config, optional    Config
+    -s, -script              Run script or scripts: script.sh, runner.py
 
 Documentation:  https://github.com/marshyski/sprinter/blob/master/README.md
 
@@ -75,44 +72,19 @@ func main() {
     viper.SetDefault("elastic_port", "9200")
     viper.SetDefault("elastic_username", "undef")
     viper.SetDefault("elastic_password", "undef")
-    viper.SetDefault("name", "undef")
-    viper.SetDefault("build", "undef")
-    viper.SetDefault("test", "undef")
-    viper.SetDefault("version", "undef")
-    viper.SetDefault("test", "undef")
-    viper.SetDefault("zip", "undef")
-    viper.SetDefault("upload", "undef")
-    viper.SetDefault("upload_username", "undef")
-    viper.SetDefault("upload_password", "undef")
 
     elastic_host := viper.GetString("elastic_host")
     elastic_port := viper.GetString("elastic_port")
     elastic_username := viper.GetString("elastic_username")
     elastic_password := viper.GetString("elastic_password")
-    name := viper.GetString("name")
-    build := viper.GetString("build")
-    test := viper.GetString("test")
-    version := viper.GetString("version")
-  //  test := viper.GetString("test")
-  //  zip := viper.GetString("zip")
-  //  upload := viper.GetString("upload")
-  //  upload_username := viper.GetString("upload_username")
-  //  upload_password := viper.GetString("upload_password")
+
+  if *scriptFlag == nil {
+    fmt.Println(usage)
+    os.Exit(1)
+  }
 
   if viperReadConfig != nil {
     fmt.Println("INFO no config file used, using default configuration")
-  }
-
-  fmt.Println(build, name, version)
-
-  if build == "undef" {
-    fmt.Println(usage)
-    os.Exit(1)
-  }
-
-  if name == "undef" {
-    fmt.Println(usage)
-    os.Exit(1)
   }
 
     buildScript := exec.Command("ls", build)
@@ -136,6 +108,17 @@ func main() {
     if err != nil {
       fmt.Println(n, err)
       return
+    }
+
+    argsStr := strings.Split(*scriptFlag, ",")
+    argsList := make([]string, 0)
+
+    for _, item := range argsStr {
+       argsList = append(argsList, item)
+    }
+
+    for _, item := range argsList {
+       fmt.Println(item)
     }
 
     if buildERR != nil {
