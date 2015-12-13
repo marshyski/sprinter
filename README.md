@@ -42,7 +42,7 @@ Short way:
     tmpfs           498M  4.0K  498M   1% /tmp
 
     domain1.com uname -a
-    Linux localhost 3.13.9-200.fc20.x86_64 #1 SMP Fri Apr 4 12:13:05 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+    Linux bundles 3.13.9-200.fc20.x86_64 #1 SMP Fri Apr 4 12:13:05 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
 
     104.236.20.120 df -h
     Filesystem      Size  Used Avail Use% Mounted on
@@ -55,7 +55,7 @@ Short way:
     tmpfs           100M     0  100M   0% /run/user/0
 
     104.236.20.120 uname -a
-    Linux localhost 3.19.0-22-generic #22-Ubuntu SMP Tue Jun 16 17:15:15 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
+    Linux trindzy 3.19.0-22-generic #22-Ubuntu SMP Tue Jun 16 17:15:15 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
 
     domain2.com df -h
     Filesystem      Size  Used Avail Use% Mounted on
@@ -66,4 +66,12 @@ Short way:
     tmpfs          1002M     0 1002M   0% /sys/fs/cgroup
 
     domain2.com uname -a
-    Linux localhost 3.10.0-123.8.1.el7.x86_64 #1 SMP Mon Sep 22 19:06:58 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+    Linux jenkins 3.10.0-123.8.1.el7.x86_64 #1 SMP Mon Sep 22 19:06:58 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+
+**Build:**
+
+    #Set GOPATH
+    go get golang.org/x/crypto/ssh
+    cd $GOPATH/src
+    git clone https://github.com/marshyski/sprinter.git
+    cd sprinter/sprinter && go build
