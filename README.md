@@ -1,6 +1,6 @@
 # sprinter
 
-Executes commands on systems by reading a file line by line
+Executes SSH commands on systems by reading a file line by line
 
 
 **Usage:**
