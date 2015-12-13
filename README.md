@@ -24,7 +24,7 @@ Short way:
 
 
 **Hostsfile:**
-{current working directory}/Hostsfile - if not specified in CLI arguments
+{current working directory}/Hostsfile - if '-h' not specified in CLI arguments
 
     domain1.com
     104.236.20.120
