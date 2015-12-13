@@ -32,7 +32,7 @@ func init() {
 
 var usage = `Usage: sprinter [options] <args>
 
-Sprinter executes commands on systems by reading a file
+Sprinter executes SSH commands on systems by reading a file line by line
 
 -c, -command             Run command or commands: 'df-h','uname -a'
 -h, -hosts, optional     Hosts file location, default is ./Hostsfile
