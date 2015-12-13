@@ -1,4 +1,0 @@
-name : 'timski'
-version : '1.0'
-build : '/Users/timski/testproj/build/build.sh'
-test: '/Users/timski/testproj/build/build.sh'
