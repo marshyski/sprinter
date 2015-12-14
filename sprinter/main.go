@@ -40,7 +40,7 @@ func init() {
 
 var usage = `Usage: sprinter [options] <args>
 
-Sprinter executes SSH commands on systems by reading a file line by line
+Sprinter remote executes SSH / WinRM commands
 
 -nc, -nixcmd             Run NIX command or commands: 'df-h','uname -a'
 -wc, -wincmd             Run Windows command or commands: 'ipconfig /all', 'set'
