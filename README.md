@@ -1,30 +1,47 @@
 # sprinter
 
-Executes SSH commands on systems by reading a file line by line
+Remote executes SSH / WinRM commands
 
 
 **Usage:**
 
-    -c, -command             Run command or commands: 'df-h','uname -a'
-    -h, -hosts, optional     Hosts file location, default is ./Hostsfile
-    -k, -key                 PEM key file location: /Users/.ssh/key.pem
-    -u, -user, optional      Username to SSH as, default is root
-    -p, -port, optional      Port to SSH as, default is 22
+    -nc, -nixcmd                Run NIX command or commands: 'df-h','uname -a'
+    -wc, -wincmd                Run Windows command or commands: 'ipconfig /all','set'
+    -f, -file, optional         Hosts file location, default is ./Hostsfile
+    -h, -host, optional         Run commands on one host
+    -k, -key                    Private key file location: ~/.ssh/key.pem
+    -u, -user, optional         Username and/or password to run as: Administrator:secret
+                                default is root
+    -p, -port, optional         Port to SSH/WinRM as: 5985, default is 22
+    -h, -https, optional        Use HTTPS for WinRM, default is false
+    -i, -insecure, optional     Use SSL validation, default is false
+    -ca, -cacert, optional      Use CA Certificate, default is None
 
 
 **Examples:**
 
-Long way:
+Long way, with defining Hostsfile (SSH):
 
-    sprinter -k /Users/timski/.ssh/secretkey.pem -h ~/Hostsfile -c 'df -h','uname -a','ls /tmp' -u root -p 2222
+    sprinter -k ~/.ssh/privatekey -f ~/Hostsfile -nc 'df -h','uname -a','ls /tmp' -u root -p 2222
 
-Short way:
+	sprinter -k ~/.ssh/privatekey -h domain1.com -nc 'df -h','uname -a','ls /tmp' -u root -p 2222
 
-    sprinter -k /Users/timski/.ssh/secretkey.pem -c 'df -h','uname -a','ls /tmp'
+Short way, without defining Hostsfile (SSH):
+
+    sprinter -k ~/.ssh/privatekey -nc 'df -h','uname -a','ls /tmp'
+    sprinter -k ~/.ssh/privatekey -h domain1.com -nc 'df -h','uname -a','ls /tmp'
+
+Long way, with HTTPS (Windows):
+
+	sprinter -u vagrant:vagrant -p 5985 -ca ./cert -h true -i true -h domain2.com -wc 'ipconfig /all','set'
+
+Short way, without HTTPS (Windows):
+
+	sprinter -u vagrant:vagrant -p 5985 -h domain2.com -wc 'ipconfig /all','set'
 
 
 **Hostsfile:**
-{current working directory}/Hostsfile - if '-h' not specified in CLI arguments
+{current working directory}/Hostsfile - if '-f' not specified in CLI arguments
 
     domain1.com
     104.236.20.120
@@ -44,34 +61,60 @@ Short way:
     domain1.com uname -a
     Linux bundles 3.13.9-200.fc20.x86_64 #1 SMP Fri Apr 4 12:13:05 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
 
-    104.236.20.120 df -h
-    Filesystem      Size  Used Avail Use% Mounted on
-    udev            486M     0  486M   0% /dev
-    tmpfs           100M  580K   99M   1% /run
-    /dev/vda1        30G  5.4G   23G  20% /
-    tmpfs           497M  120K  497M   1% /dev/shm
-    tmpfs           5.0M     0  5.0M   0% /run/lock
-    tmpfs           497M     0  497M   0% /sys/fs/cgroup
-    tmpfs           100M     0  100M   0% /run/user/0
-
-    104.236.20.120 uname -a
-    Linux trindzy 3.19.0-22-generic #22-Ubuntu SMP Tue Jun 16 17:15:15 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux
-
-    domain2.com df -h
-    Filesystem      Size  Used Avail Use% Mounted on
-    /dev/vda1        40G  4.6G   33G  13% /
-    devtmpfs        996M     0  996M   0% /dev
-    tmpfs          1002M     0 1002M   0% /dev/shm
-    tmpfs          1002M   17M  985M   2% /run
-    tmpfs          1002M     0 1002M   0% /sys/fs/cgroup
-
-    domain2.com uname -a
-    Linux jenkins 3.10.0-123.8.1.el7.x86_64 #1 SMP Mon Sep 22 19:06:58 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+    10.20.1.7 ipconfig /all
+    
+    Windows IP Configuration
+    
+       Host Name . . . . . . . . . . . . : server2008r2a
+       Primary Dns Suffix  . . . . . . . : pdx.puppetlabs.demo
+       Node Type . . . . . . . . . . . . : Hybrid
+       IP Routing Enabled. . . . . . . . : No
+       WINS Proxy Enabled. . . . . . . . : No
+       DNS Suffix Search List. . . . . . : pdx.puppetlabs.demo
+                                           home
+    0
+    
+    10.20.1.7 set
+    ALLUSERSPROFILE=C:\ProgramData
+    APPDATA=C:\Users\vagrant\AppData\Roaming
+    ChocolateyInstall=C:\ProgramData\chocolatey
+    CommonProgramFiles=C:\Program Files\Common Files
+    CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+    CommonProgramW6432=C:\Program Files\Common Files
+    COMPUTERNAME=SERVER2008R2A
+    ComSpec=C:\Windows\system32\cmd.exe
+    FP_NO_HOST_CHECK=NO
+    LOCALAPPDATA=C:\Users\vagrant\AppData\Local
+    NUMBER_OF_PROCESSORS=1
+    OS=Windows_NT
+    Path=C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Puppet Labs\Puppet\bin;C:\ProgramData\chocolatey\bin;
+    PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+    PROCESSOR_ARCHITECTURE=AMD64
+    PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 69 Stepping 1, GenuineIntel
+    PROCESSOR_LEVEL=6
+    PROCESSOR_REVISION=4501
+    ProgramData=C:\ProgramData
+    ProgramFiles=C:\Program Files
+    ProgramFiles(x86)=C:\Program Files (x86)
+    ProgramW6432=C:\Program Files
+    PROMPT=$P$G
+    PSModulePath=C:\Windows\system32\WindowsPowerShell\v1.0\Modules\
+    PUBLIC=C:\Users\Public
+    SystemDrive=C:
+    SystemRoot=C:\Windows
+    TEMP=C:\Users\vagrant\AppData\Local\Temp
+    TMP=C:\Users\vagrant\AppData\Local\Temp
+    USERDOMAIN=SERVER2008R2A
+    USERNAME=vagrant
+    USERPROFILE=C:\Users\vagrant
+    windir=C:\Windows
+    0
 
 **Build:**
 
     #Set GOPATH
     go get golang.org/x/crypto/ssh
+    go get github.com/masterzen/winrm/winrm
     cd $GOPATH/src
     git clone https://github.com/marshyski/sprinter.git
     cd sprinter/sprinter && go build
