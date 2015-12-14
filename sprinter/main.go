@@ -43,10 +43,10 @@ var usage = `Usage: sprinter [options] <args>
 Sprinter remote executes SSH / WinRM commands
 
 -nc, -nixcmd                Run NIX command or commands: 'df-h','uname -a'
--wc, -wincmd                Run Windows command or commands: 'ipconfig /all', 'set'
+-wc, -wincmd                Run Windows command or commands: 'ipconfig /all','set'
 -f, -file, optional         Hosts file location, default is ./Hostsfile
 -h, -host, optional         Run commands on one host
--k, -key                    PEM key file location: ~/.ssh/key.pem
+-k, -key                    Private key file location: ~/.ssh/key.pem
 -u, -user, optional         Username and/or password to run as: Administrator:secret
                             default is root
 -p, -port, optional         Port to SSH/WinRM as: 5985, default is 22
