@@ -34,7 +34,7 @@ func init() {
   flag.IntVar(portFlag, "p", 22, "  Port")
   flag.StringVar(hostFlag, "h", "", " Host")
   flag.BoolVar(httpsFlag, "ssl", false, "HTTPS")
-  flag.BoolVar(insecureFlag, "insec", false, "Insecure")
+  flag.BoolVar(insecureFlag, "i", false, "Insecure")
   flag.StringVar(cacertFlag, "ca", "", "CACert")
 }
 
@@ -42,17 +42,17 @@ var usage = `Usage: sprinter [options] <args>
 
 Sprinter remote executes SSH / WinRM commands
 
--nc, -nixcmd             Run NIX command or commands: 'df-h','uname -a'
--wc, -wincmd             Run Windows command or commands: 'ipconfig /all', 'set'
--f, -file, optional      Hosts file location, default is ./Hostsfile
--h, -host, optional      Run commands on one host
--k, -key                 PEM key file location: ~/.ssh/key.pem
--u, -user, optional      Username and/or password to run as: Administrator:secret
-                         default is root
--p, -port, optional      Port to SSH/WinRM as: 5985, default is 22
--https, optional         Use HTTPS for WinRM, default is false
--insecure, optional      Use SSL validation, default is false
--cacert, optional        Use CA Certificate, default is None
+-nc, -nixcmd                Run NIX command or commands: 'df-h','uname -a'
+-wc, -wincmd                Run Windows command or commands: 'ipconfig /all', 'set'
+-f, -file, optional         Hosts file location, default is ./Hostsfile
+-h, -host, optional         Run commands on one host
+-k, -key                    PEM key file location: ~/.ssh/key.pem
+-u, -user, optional         Username and/or password to run as: Administrator:secret
+                            default is root
+-p, -port, optional         Port to SSH/WinRM as: 5985, default is 22
+-h, -https, optional        Use HTTPS for WinRM, default is false
+-i, -insecure, optional     Use SSL validation, default is false
+-ca, -cacert, optional      Use CA Certificate, default is None
 
 Documentation:  https://github.com/marshyski/sprinter/blob/master/README.md
 
