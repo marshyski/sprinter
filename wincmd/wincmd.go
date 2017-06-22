@@ -7,7 +7,7 @@ import (
   "fmt"
   "io/ioutil"
 
-  "github.com/masterzen/winrm/winrm"
+  "github.com/masterzen/winrm"
 )
 
 func Win(command string, port int, user string, hostsfile string, https bool, insecure bool, password string, cacert string, host string) {
@@ -40,7 +40,7 @@ func Win(command string, port int, user string, hostsfile string, https bool, in
         fmt.Println(err)
       } else {
 
-      client, err := winrm.NewClient(&winrm.Endpoint{Host: host, Port: port, HTTPS: https, Insecure: insecure, CACert: &certBytes}, user, password)
+      client, err := winrm.NewClient(&winrm.Endpoint{Host: host, Port: port, HTTPS: https, Insecure: insecure, CACert: certBytes}, user, password)
       if err != nil {
         fmt.Println(err)
       }
@@ -71,7 +71,7 @@ func Win(command string, port int, user string, hostsfile string, https bool, in
           fmt.Println(err)
         } else {
 
-            client, err := winrm.NewClient(&winrm.Endpoint{Host: scanner.Text(), Port: port, HTTPS: https, Insecure: insecure, CACert: &certBytes}, user, password)
+            client, err := winrm.NewClient(&winrm.Endpoint{Host: scanner.Text(), Port: port, HTTPS: https, Insecure: insecure, CACert: certBytes}, user, password)
             if err != nil {
               fmt.Println(err)
             }
